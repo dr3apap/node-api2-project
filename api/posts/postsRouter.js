@@ -32,45 +32,6 @@ router.post("/", (req, res) => {
   }
 });
 
-//| POST | /api/posts/:id/comments | Creates a comment for the post with the specified id using information sent inside of the `request body`.
-// router.post("/:id/comments", (req, res) => {
-//   console.log("in the comments");
-//   const commentId = req.params.id;
-//   const schema = {
-//     text: Joi.string().required(),
-//     commentId: Joi.string()
-//       .min(2)
-//       .required(),
-//   };
-//   const { error, values } = Joi.validate(commentId, schema);
-//   const valid = error == null;
-//   if (valid) {
-//     db.insertComment({ ...req.body, post_id: commentId })
-//       .then(commentId => {
-//         // res.status(201).json(commentId[])
-//         let comments = db.findCommentById(id);
-//         res.status(201).json(comments);
-//         let saveComment = commentId.save();
-
-//         if (!commentId && schema.hasOwnProperty(prop)) {
-//           for (const prop in schema) {
-//             res.status(500).json(schema[prop]);
-
-//             saveComment = res.status(404).json({
-//               error:
-//                 "There was an error while saving the comment to the database",
-//             });
-//           }
-//         }
-//       })
-//       .catch(err => {
-//         res
-//           .status(404)
-//           .json({ err: "The post with the specified ID does not exist." });
-//       });
-//   }
-// });
-
 router.post("/:id/comments", (req, res) => {
   const commentId = req.params.id;
   const schema = {
@@ -182,11 +143,9 @@ router.delete("/:id", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   if (!req.body.title || !req.body.contents) {
-    res
-      .status(400)
-      .json({
-        errorMessage: "Please provide title and contents for the post.",
-      });
+    res.status(400).json({
+      errorMessage: "Please provide title and contents for the post.",
+    });
   } else {
     try {
       await db.update(req.params.id, req.body);
